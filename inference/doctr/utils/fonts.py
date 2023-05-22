@@ -4,7 +4,7 @@
 # See LICENSE or go to <https://www.apache.org/licenses/LICENSE-2.0.txt> for full license details.
 
 import logging
-import cap
+import platform_srv
 from typing import Optional
 
 from PIL import ImageFont
@@ -26,7 +26,7 @@ def get_font(font_family: Optional[str] = None, font_size: int = 13) -> ImageFon
     # Font selection
     if font_family is None:
         try:
-            font = ImageFont.truetype("FreeMono.ttf" if cap.system() == "Linux" else "Arial.ttf", font_size)
+            font = ImageFont.truetype("FreeMono.ttf" if platform_srv.system() == "Linux" else "Arial.ttf", font_size)
         except OSError:
             font = ImageFont.load_default()
             logging.warning("unable to load recommended font family. Loading default PIL font,"

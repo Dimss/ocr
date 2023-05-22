@@ -2,8 +2,8 @@ import grpc
 import logging
 import json
 from concurrent import futures
-from cap import aiservice_pb2_grpc
-from cap import aiservice_pb2
+from platform_srv import aiservice_pb2_grpc
+from platform_srv import aiservice_pb2
 from inference.predict import predict
 
 
