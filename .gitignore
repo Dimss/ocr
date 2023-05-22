@@ -1,2 +1,3 @@
 .idea
 platform_srv/__pycache__/
+inference/__pycache__
