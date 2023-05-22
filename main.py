@@ -8,50 +8,23 @@ from platform_srv import aiservice_pb2
 from inference.predict import predict, init_predictor, ready
 
 
-class InferenceService(aiservice_pb2_grpc.InferenceService):
+class InferenceService(aiservice_pb2_grpc.InferenceServiceServicer):
 
-    def Predict(self,
-                request,
-                target,
-                options=(),
-                channel_credentials=None,
-                call_credentials=None,
-                insecure=False,
-                compression=None,
-                wait_for_ready=None,
-                timeout=None,
-                metadata=None):
+    def Predict(self, request, context):
         if not ready():
-
-            return aiservice_pb2.PredictResponse(result="the server is not ready yet, bootstrap it first!")
+            context.set_code(grpc.StatusCode.FAILED_PRECONDITION)
+            context.set_details("the server is not ready yet, bootstrap it first!")
+            return
         data = dict(pdf=[request.file_input.path])
         prediction = predict(data)
         return aiservice_pb2.PredictResponse(result=json.dumps(prediction))
 
-    def Ready(self, request,
-              target,
-              options=(),
-              channel_credentials=None,
-              call_credentials=None,
-              insecure=False,
-              compression=None,
-              wait_for_ready=None,
-              timeout=None,
-              metadata=None):
+    def Ready(self, request, context):
         return aiservice_pb2.ReadyResponse(ready=ready())
 
-    def Bootstrap(self, request,
-                  target,
-                  options=(),
-                  channel_credentials=None,
-                  call_credentials=None,
-                  insecure=False,
-                  compression=None,
-                  wait_for_ready=None,
-                  timeout=None,
-                  metadata=None):
-        # init_predictor()
-        return aiservice_pb2.BootstrapResponse(ok=True)
+    def Bootstrap(self, request, context):
+        init_predictor()
+        return aiservice_pb2.BootstrapResponse(ok=ready())
 
 
 def serve():
