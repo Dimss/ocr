@@ -8,7 +8,7 @@ from platform_srv import aiservice_pb2_grpc
 from platform_srv import aiservice_pb2
 from inference.predict import predict, init_predictor, ready
 
-LISTEN_ADDRESS = os.getenv("PLATFORM_SRV_ADDR", "unix://var/run/inference.sock")
+LISTEN_ADDRESS = os.getenv("PLATFORM_SRV_ADDR", "0.0.0.0:50051")
 
 
 class InferenceService(aiservice_pb2_grpc.InferenceServiceServicer):
@@ -42,6 +42,7 @@ def start_grpc_server() -> grpc.Server:
     aiservice_pb2_grpc.add_InferenceServiceServicer_to_server(InferenceService(), s)
     enabled_reflection(s)
     s.add_insecure_port(LISTEN_ADDRESS)
+
     s.start()
     print("Server started, listening on 0.0.0.0:" + port)
     return s
