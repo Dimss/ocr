@@ -4,11 +4,21 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
+class BootstrapRequest(_message.Message):
+    __slots__ = []
+    def __init__(self) -> None: ...
+
+class BootstrapResponse(_message.Message):
+    __slots__ = ["ok"]
+    OK_FIELD_NUMBER: _ClassVar[int]
+    ok: bool
+    def __init__(self, ok: bool = ...) -> None: ...
+
 class FileInput(_message.Message):
-    __slots__ = ["data"]
-    DATA_FIELD_NUMBER: _ClassVar[int]
-    data: str
-    def __init__(self, data: _Optional[str] = ...) -> None: ...
+    __slots__ = ["path"]
+    PATH_FIELD_NUMBER: _ClassVar[int]
+    path: str
+    def __init__(self, path: _Optional[str] = ...) -> None: ...
 
 class PredictRequest(_message.Message):
     __slots__ = ["file_input", "prompt_input"]
@@ -25,7 +35,17 @@ class PredictResponse(_message.Message):
     def __init__(self, result: _Optional[str] = ...) -> None: ...
 
 class PromptInput(_message.Message):
-    __slots__ = ["data"]
-    DATA_FIELD_NUMBER: _ClassVar[int]
-    data: str
-    def __init__(self, data: _Optional[str] = ...) -> None: ...
+    __slots__ = ["prompt"]
+    PROMPT_FIELD_NUMBER: _ClassVar[int]
+    prompt: str
+    def __init__(self, prompt: _Optional[str] = ...) -> None: ...
+
+class ReadyRequest(_message.Message):
+    __slots__ = []
+    def __init__(self) -> None: ...
+
+class ReadyResponse(_message.Message):
+    __slots__ = ["ready"]
+    READY_FIELD_NUMBER: _ClassVar[int]
+    ready: bool
+    def __init__(self, ready: bool = ...) -> None: ...

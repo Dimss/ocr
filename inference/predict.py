@@ -9,10 +9,24 @@ import base64
 from operator import itemgetter
 import binascii
 
-if torch.cuda.is_available():
-    predictor = ocr_predictor(pretrained=True).cuda()
-else:
-    predictor = ocr_predictor(pretrained=True)
+predictor = None
+
+
+def ready() -> bool:
+    global predictor
+    if predictor is None:
+        print("predictor is none! returning False ")
+        return False
+    print("predictor is set! returning True ")
+    return True
+
+
+def init_predictor():
+    global predictor
+    if torch.cuda.is_available():
+        predictor = ocr_predictor(pretrained=True).cuda()
+    else:
+        predictor = ocr_predictor(pretrained=True)
 
 
 def stitch(page):
@@ -89,9 +103,9 @@ def predict(data):
         # todo - make it default or keep this way
         # transform output from dictionary to list
         output_list = []
-        for count, value in  output.items():
+        for count, value in output.items():
             output_list.append(value)
-        
+
         prediction[filepdf.split('/')[-1]] = output_list
 
     return prediction

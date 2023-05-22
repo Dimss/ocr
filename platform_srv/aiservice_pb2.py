@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x61iservice.proto\x12\x0c\x61iservice.v1\"\x1b\n\x0bPromptInput\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x19\n\tFileInput\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"n\n\x0ePredictRequest\x12/\n\x0cprompt_input\x18\x01 \x01(\x0b\x32\x19.aiservice.v1.PromptInput\x12+\n\nfile_input\x18\x02 \x01(\x0b\x32\x17.aiservice.v1.FileInput\"!\n\x0fPredictResponse\x12\x0e\n\x06result\x18\x01 \x01(\t2\\\n\x10InferenceService\x12H\n\x07Predict\x12\x1c.aiservice.v1.PredictRequest\x1a\x1d.aiservice.v1.PredictResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x61iservice.proto\x12\x0c\x61iservice.v1\"\x1d\n\x0bPromptInput\x12\x0e\n\x06prompt\x18\x01 \x01(\t\"\x19\n\tFileInput\x12\x0c\n\x04path\x18\x01 \x01(\t\"n\n\x0ePredictRequest\x12/\n\x0cprompt_input\x18\x01 \x01(\x0b\x32\x19.aiservice.v1.PromptInput\x12+\n\nfile_input\x18\x02 \x01(\x0b\x32\x17.aiservice.v1.FileInput\"!\n\x0fPredictResponse\x12\x0e\n\x06result\x18\x01 \x01(\t\"\x0e\n\x0cReadyRequest\"\x1e\n\rReadyResponse\x12\r\n\x05ready\x18\x01 \x01(\x08\"\x12\n\x10\x42ootstrapRequest\"\x1f\n\x11\x42ootstrapResponse\x12\n\n\x02ok\x18\x01 \x01(\x08\x32\xf0\x01\n\x10InferenceService\x12H\n\x07Predict\x12\x1c.aiservice.v1.PredictRequest\x1a\x1d.aiservice.v1.PredictResponse\"\x00\x12\x42\n\x05Ready\x12\x1a.aiservice.v1.ReadyRequest\x1a\x1b.aiservice.v1.ReadyResponse\"\x00\x12N\n\tBootstrap\x12\x1e.aiservice.v1.BootstrapRequest\x1a\x1f.aiservice.v1.BootstrapResponse\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'aiservice_pb2', globals())
@@ -21,13 +21,21 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _PROMPTINPUT._serialized_start=33
-  _PROMPTINPUT._serialized_end=60
-  _FILEINPUT._serialized_start=62
-  _FILEINPUT._serialized_end=87
-  _PREDICTREQUEST._serialized_start=89
-  _PREDICTREQUEST._serialized_end=199
-  _PREDICTRESPONSE._serialized_start=201
-  _PREDICTRESPONSE._serialized_end=234
-  _INFERENCESERVICE._serialized_start=236
-  _INFERENCESERVICE._serialized_end=328
+  _PROMPTINPUT._serialized_end=62
+  _FILEINPUT._serialized_start=64
+  _FILEINPUT._serialized_end=89
+  _PREDICTREQUEST._serialized_start=91
+  _PREDICTREQUEST._serialized_end=201
+  _PREDICTRESPONSE._serialized_start=203
+  _PREDICTRESPONSE._serialized_end=236
+  _READYREQUEST._serialized_start=238
+  _READYREQUEST._serialized_end=252
+  _READYRESPONSE._serialized_start=254
+  _READYRESPONSE._serialized_end=284
+  _BOOTSTRAPREQUEST._serialized_start=286
+  _BOOTSTRAPREQUEST._serialized_end=304
+  _BOOTSTRAPRESPONSE._serialized_start=306
+  _BOOTSTRAPRESPONSE._serialized_end=337
+  _INFERENCESERVICE._serialized_start=340
+  _INFERENCESERVICE._serialized_end=580
 # @@protoc_insertion_point(module_scope)

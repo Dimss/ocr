@@ -19,12 +19,34 @@ class InferenceServiceStub(object):
                 request_serializer=aiservice__pb2.PredictRequest.SerializeToString,
                 response_deserializer=aiservice__pb2.PredictResponse.FromString,
                 )
+        self.Ready = channel.unary_unary(
+                '/aiservice.v1.InferenceService/Ready',
+                request_serializer=aiservice__pb2.ReadyRequest.SerializeToString,
+                response_deserializer=aiservice__pb2.ReadyResponse.FromString,
+                )
+        self.Bootstrap = channel.unary_unary(
+                '/aiservice.v1.InferenceService/Bootstrap',
+                request_serializer=aiservice__pb2.BootstrapRequest.SerializeToString,
+                response_deserializer=aiservice__pb2.BootstrapResponse.FromString,
+                )
 
 
 class InferenceServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Predict(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Ready(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Bootstrap(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +59,16 @@ def add_InferenceServiceServicer_to_server(servicer, server):
                     servicer.Predict,
                     request_deserializer=aiservice__pb2.PredictRequest.FromString,
                     response_serializer=aiservice__pb2.PredictResponse.SerializeToString,
+            ),
+            'Ready': grpc.unary_unary_rpc_method_handler(
+                    servicer.Ready,
+                    request_deserializer=aiservice__pb2.ReadyRequest.FromString,
+                    response_serializer=aiservice__pb2.ReadyResponse.SerializeToString,
+            ),
+            'Bootstrap': grpc.unary_unary_rpc_method_handler(
+                    servicer.Bootstrap,
+                    request_deserializer=aiservice__pb2.BootstrapRequest.FromString,
+                    response_serializer=aiservice__pb2.BootstrapResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +94,39 @@ class InferenceService(object):
         return grpc.experimental.unary_unary(request, target, '/aiservice.v1.InferenceService/Predict',
             aiservice__pb2.PredictRequest.SerializeToString,
             aiservice__pb2.PredictResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Ready(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/aiservice.v1.InferenceService/Ready',
+            aiservice__pb2.ReadyRequest.SerializeToString,
+            aiservice__pb2.ReadyResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Bootstrap(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/aiservice.v1.InferenceService/Bootstrap',
+            aiservice__pb2.BootstrapRequest.SerializeToString,
+            aiservice__pb2.BootstrapResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
