@@ -29,7 +29,7 @@ spec:
             - name: PLATFORM_SRV_ADDR
               value: "127.0.0.1:50051"
             - name: DOCTR_CACHE_DIR
-              value: /mnt/tmp-data-dir/.cache
+              value: /mnt/tmp-data-dir
           ports:
             - containerPort: 50051
           volumeMounts:
@@ -74,6 +74,8 @@ kind: Route
 metadata:
   name: ocr
   namespace: ocr-test
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
   labels:
     app: ocr
 spec:
