@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocr
+  namespace: ocr-test
+  labels:
+    app: ocr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocr
+  template:
+    metadata:
+      labels:
+        app: ocr
+    spec:
+      containers:
+        - name: ocr
+          image: docker.io/cnvrg/ocr:latest
+          imagePullPolicy: Always
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          command:
+            - python
+            - main.py
+          env:
+            - name: PLATFORM_SRV_ADDR
+              value: "127.0.0.1:50051"
+            - name: DOCTR_CACHE_DIR
+              value: /mnt/tmp-data-dir/.cache
+          ports:
+            - containerPort: 50051
+          volumeMounts:
+            - mountPath: /mnt/tmp-data-dir
+              name: tmp-data
+        - name: proxy
+          image: docker.io/cnvrg/inference-proxy:latest
+          imagePullPolicy: Always
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          command:
+            - /opt/app-root/proxy
+            - start
+            - --tmp-data-dir=/mnt/tmp-data-dir
+            - --upstream-aiservice-addr=127.0.0.1:50051
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /mnt/tmp-data-dir
+              name: tmp-data
+      volumes:
+        - name: tmp-data
+          persistentVolumeClaim:
+            claimName: ocr-test-data-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocr
+  namespace: ocr-test
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: ocr
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ocr
+  namespace: ocr-test
+  labels:
+    app: ocr
+spec:
+  host: "ocr.apps.ixzm8gli.eastus2.aroapp.io"
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: ocr
+    weight: 100
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ocr-test-data-data
+  namespace: ocr-test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

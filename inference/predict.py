@@ -15,9 +15,7 @@ predictor = None
 def ready() -> bool:
     global predictor
     if predictor is None:
-        print("predictor is none! returning False ")
         return False
-    print("predictor is set! returning True ")
     return True
 
 
@@ -39,10 +37,10 @@ def stitch(page):
 
 
 def _process_file(file_path, todo, output):
-    if str(file_path).lower().endswith(".pdf"):
-        doc = DocumentFile.from_pdf(file_path)
-    else:
-        doc = DocumentFile.from_images(file_path)
+    # if str(file_path).lower().endswith(".pdf"):
+    doc = DocumentFile.from_pdf(file_path)
+    # else:
+    # doc = DocumentFile.from_images(file_path)
     if len(todo) == 1:
         out = predictor([doc[todo[0]]])
     else:
